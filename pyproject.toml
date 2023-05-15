@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "ai-discord-bot-demo"
+version = "0.1.0"
+description = "Discord demo bot. Interacting with OpenAI text completion and image generation."
+authors = ["Ian <exor2008@yandex.ru>"]
+readme = "README.md"
+packages = [{include = "ai_discord_bot_demo"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+openai = "^0.27.6"
+discord = "^2.2.3"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+isort = "^5.12.0"
+mypy = "^1.2.0"
+python-dotenv = "^1.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+line_length = 100
+profile = "black"
