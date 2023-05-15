@@ -50,11 +50,20 @@ async def on_member_join(member) -> None:
 
 @bot.command()  # type: ignore
 async def menu(ctx) -> None:
+    """
+    Show the graphical menu of the bot commands.
+    """
     await ctx.send(view=MenuView())
 
 
 @bot.command()  # type: ignore
 async def say(ctx, *txt: str) -> None:
+    """
+    Speak with the bot.
+
+    Arguments:
+    - txt (str): Your statement in the dialogue with bot. E.g. How are yuo?
+    """
     if guild := ctx.guild:
         logger_file.critical(
             f'USE OF /SAY: guild: {guild}, user:{ctx.author.name}, content: {" ".join(txt)}'
@@ -66,6 +75,12 @@ async def say(ctx, *txt: str) -> None:
 
 @bot.command()  # type: ignore
 async def avatar(ctx, *txt: str) -> None:
+    """
+    Generates an avatar based on a short description
+
+    Arguments:
+    - txt (str): Short description of avatar. E.g. Ancient Greek sailor steering a ship.
+    """
     logger_file.critical(
         f'USE OF /AVATAR: guild: {ctx.guild if ctx.guild else None}, user:{ctx.author.name}, content: {" ".join(txt)}'
     )
