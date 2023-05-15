@@ -9,6 +9,7 @@ import discord
 from discord.ext import commands
 
 from ai import Avatar, dialog, generate
+from utils import logger, logger_file
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -32,35 +33,42 @@ class AIBot(commands.Bot):
         self.messages[guild_id] = [{"role": "system", "content": new_behaviour}]
 
 
-client = AIBot(command_prefix="/", intents=intents)
+bot = AIBot(command_prefix="/", intents=intents)
 
 
-@client.event
+@bot.event
 async def on_ready() -> None:
-    print(f"Logged in as {client.user} (ID: {client.user.id if client.user else None})")
-    print("------")
+    logger.critical(
+        f"Logged in as {bot.user} (ID: {bot.user.id if bot.user else None})"
+    )
 
 
-@client.event
+@bot.event
 async def on_member_join(member) -> None:
     await member.send(f"Hi {member.mention}, type /start to begin interaction.")
 
 
-@client.command()
-async def menu(ctx: commands.Context) -> None:  # type: ignore
+@bot.command()  # type: ignore
+async def menu(ctx) -> None:
     await ctx.send(view=MenuView())
 
 
-@client.command()
-async def say(ctx: commands.Context, *txt: str) -> None:  # type: ignore
+@bot.command()  # type: ignore
+async def say(ctx, *txt: str) -> None:
     if guild := ctx.guild:
-        resp = await client.say(guild.id, txt)
+        logger_file.critical(
+            f'USE OF /SAY: guild: {guild}, user:{ctx.author.name}, content: {" ".join(txt)}'
+        )
+        resp = await bot.say(guild.id, txt)
 
         await ctx.reply(resp)
 
 
-@client.command()
-async def avatar(ctx: commands.Context, *txt: str) -> None:  # type: ignore
+@bot.command()  # type: ignore
+async def avatar(ctx, *txt: str) -> None:
+    logger_file.critical(
+        f'USE OF /AVATAR: guild: {ctx.guild if ctx.guild else None}, user:{ctx.author.name}, content: {" ".join(txt)}'
+    )
     await ctx.defer()
 
     try:
@@ -117,6 +125,10 @@ class AvatarDescrModal(discord.ui.Modal):
         await interaction.response.defer(thinking=True)
         try:
             if value := getattr(self.children[0], "value"):
+                logger_file.critical(
+                    f"USE OF /AVATAR: guild: {interaction.guild if interaction.guild else None}, "
+                    f"user:{interaction.user.name}, content: {value}"
+                )
                 avatar = await generate(value)
         except Exception as e:
             warnings.warn(traceback.format_exc())
@@ -154,8 +166,11 @@ class AIAdjustModal(discord.ui.Modal):
             client = interaction.client
             bot = cast(AIBot, client)
             if guild_id := getattr(interaction, "guild_id"):
+                logger_file.critical(
+                    f"USE OF /ADJ_BEHAV: guild: {interaction.guild if interaction.guild else None}, "
+                    f"user:{interaction.user.name}, content: {new_behaviour}"
+                )
                 await bot.set_behaviour(guild_id, new_behaviour)
-
                 await interaction.response.send_message(
                     f"Behaviour of AI ChatBot changed to {new_behaviour}. Message history cleared."
                 )

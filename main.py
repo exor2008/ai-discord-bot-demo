@@ -3,9 +3,9 @@ import os
 
 from dotenv import load_dotenv
 
-from bot import client
+from bot import bot
 
 if __name__ == "__main__":
     load_dotenv()
 
-    client.run(os.environ["DISCORD_TOKEN"])
+    bot.run(os.environ["DISCORD_TOKEN"])
