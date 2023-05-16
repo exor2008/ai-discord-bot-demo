@@ -8,8 +8,8 @@ from typing import Tuple, cast
 import discord
 from discord.ext import commands
 
-from ai import Avatar, dialog, generate
-from utils import logger, logger_file
+from discord_bot.ai import Avatar, dialog, generate
+from discord_bot.utils import logger, logger_file
 
 intents = discord.Intents.default()
 intents.message_content = True
