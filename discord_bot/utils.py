@@ -1,6 +1,10 @@
 import logging
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 logger = logging.getLogger("AIbot logger")
 logger.setLevel(os.environ["LOG_LEVEL"])
 formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
