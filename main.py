@@ -2,7 +2,7 @@ import os
 
 from dotenv import load_dotenv
 
-from discord_bot.bot import bot
+from ai_discord_bot_demo.bot import bot
 
 if __name__ == "__main__":
     load_dotenv()
