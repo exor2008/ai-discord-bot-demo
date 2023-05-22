@@ -11,8 +11,10 @@ COPY README.md .
 # For local runs
 # COPY [".env", ".env"]
 
+RUN python -m pip install --upgrade pip
 RUN pip install poetry
-RUN poetry install --without dev
+RUN poetry install
+RUN poetry show
 
 # CMD ["poetry", "run", "python", "main.py"]
 CMD ["poetry", "show"]
