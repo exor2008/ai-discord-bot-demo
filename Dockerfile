@@ -1,6 +1,7 @@
 FROM python:3.11.3-slim-bullseye
 
-WORKDIR /usr/src/app
+RUN useradd -ms /bin/bash user
+WORKDIR /home/user
 
 COPY main.py .
 COPY ai_discord_bot_demo ./ai_discord_bot_demo/
