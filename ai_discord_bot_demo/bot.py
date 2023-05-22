@@ -9,7 +9,7 @@ import discord
 from discord.ext import commands
 
 from ai_discord_bot_demo.ai import Avatar, dialog, generate
-from ai_discord_bot_demo.utils import logger, logger_file
+from ai_discord_bot_demo.utils import logger
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -65,7 +65,7 @@ async def say(ctx, *txt: str) -> None:
     - txt (str): Your statement in the dialogue with bot. E.g. How are yuo?
     """
     if guild := ctx.guild:
-        logger_file.critical(
+        logger.info(
             f'USE OF /SAY: guild: {guild}, user:{ctx.author.name}, content: {" ".join(txt)}'
         )
         resp = await bot.say(guild.id, txt)
@@ -81,7 +81,7 @@ async def avatar(ctx, *txt: str) -> None:
     Arguments:
     - txt (str): Short description of avatar. E.g. Ancient Greek sailor steering a ship.
     """
-    logger_file.critical(
+    logger.info(
         f'USE OF /AVATAR: guild: {ctx.guild if ctx.guild else None}, user:{ctx.author.name}, content: {" ".join(txt)}'
     )
     await ctx.defer()
@@ -140,7 +140,7 @@ class AvatarDescrModal(discord.ui.Modal):
         await interaction.response.defer(thinking=True)
         try:
             if value := getattr(self.children[0], "value"):
-                logger_file.critical(
+                logger.info(
                     f"USE OF /AVATAR: guild: {interaction.guild if interaction.guild else None}, "
                     f"user:{interaction.user.name}, content: {value}"
                 )
@@ -181,7 +181,7 @@ class AIAdjustModal(discord.ui.Modal):
             client = interaction.client
             bot = cast(AIBot, client)
             if guild_id := getattr(interaction, "guild_id"):
-                logger_file.critical(
+                logger.info(
                     f"USE OF /ADJ_BEHAV: guild: {interaction.guild if interaction.guild else None}, "
                     f"user:{interaction.user.name}, content: {new_behaviour}"
                 )

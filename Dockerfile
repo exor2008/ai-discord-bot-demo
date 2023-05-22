@@ -5,6 +5,8 @@ USER user
 WORKDIR /home/user
 ENV PATH="$PATH:/home/user/.local/bin"
 
+EXPOSE 8080 
+
 COPY main.py .
 COPY ai_discord_bot_demo ./ai_discord_bot_demo/
 COPY pyproject.toml .
@@ -16,6 +18,5 @@ COPY README.md .
 RUN python -m pip install --upgrade pip
 RUN pip install poetry
 RUN poetry install
-RUN poetry show
 
 CMD ["poetry", "run", "python", "main.py"]
