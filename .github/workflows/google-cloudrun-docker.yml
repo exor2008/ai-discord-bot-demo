@@ -50,7 +50,7 @@ on:
 
 env:
   PROJECT_ID: discord-ai-bot-demo
-  GAR_LOCATION: us-central1
+  GAR_LOCATION: us-east1
   SERVICE: ai-discord-bot-demo
   REGION: us-central1
 
