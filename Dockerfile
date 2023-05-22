@@ -1,6 +1,7 @@
 FROM python:3.11.3-slim-bullseye
 
 RUN useradd -ms /bin/bash user
+USER user
 WORKDIR /home/user
 
 COPY main.py .
