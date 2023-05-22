@@ -18,5 +18,4 @@ RUN pip install poetry
 RUN poetry install
 RUN poetry show
 
-# CMD ["poetry", "run", "python", "main.py"]
-CMD ["poetry", "show"]
+CMD ["poetry", "run", "python", "main.py"]
