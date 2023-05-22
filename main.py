@@ -1,5 +1,6 @@
 import os
 
+import openai
 from dotenv import load_dotenv
 
 from ai_discord_bot_demo.bot import bot
