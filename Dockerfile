@@ -13,4 +13,5 @@ COPY README.md .
 RUN pip install poetry
 RUN poetry install --without dev
 
-CMD ["poetry", "run", "python", "main.py"]
+# CMD ["poetry", "run", "python", "main.py"]
+CMD ["poetry", "show"]
