@@ -1,6 +1,5 @@
 import os
 import random
-import traceback
 from enum import StrEnum
 
 from interactions import (
@@ -48,7 +47,8 @@ async def on_menu(ctx: ComponentContext):
             await ctx.send_modal(modal=modal)
             modal_ctx = await ctx.bot.wait_for_modal(modal)
             new_behaviour = modal_ctx.responses[ModalInputs.IN_ADJUST]
-            await chat.set_behaviour(ctx.guild_id, new_behaviour)
+            guild_id = ctx.guild_id.real if ctx.guild_id else 0
+            await chat.set_behaviour(guild_id, new_behaviour)
             await modal_ctx.respond(f"AI Bot behaviour changed to <{new_behaviour}>")
 
         case MenuOptions.OPT_AVATAR:
@@ -69,7 +69,8 @@ async def on_menu(ctx: ComponentContext):
             phrase = modal_ctx.responses[ModalInputs.IN_SAY]
 
             await modal_ctx.defer()
-            resp_phrase = await chat.say(ctx.guild_id, phrase)
+            guild_id = ctx.guild_id.real if ctx.guild_id else 0
+            resp_phrase = await chat.say(guild_id, phrase)
             if len(resp_phrase) > PAGINATION:
                 paginator = Paginator.create_from_string(
                     ctx.bot, resp_phrase, page_size=2000
@@ -91,7 +92,7 @@ def get_main_menu():
     )
 
 
-def get_adjust_modal():
+def get_adjust_modal() -> Modal:
     return Modal(
         InputText(
             label="Describe the desired behavior of AI ChatBot.",
@@ -103,7 +104,7 @@ def get_adjust_modal():
     )
 
 
-def get_avatar_modal():
+def get_avatar_modal() -> Modal:
     return Modal(
         InputText(
             label="Describe the desired avatar.",
@@ -115,7 +116,7 @@ def get_avatar_modal():
     )
 
 
-def get_say_modal():
+def get_say_modal() -> Modal:
     return Modal(
         InputText(
             label="Your phrase.",

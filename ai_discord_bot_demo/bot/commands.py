@@ -27,7 +27,9 @@ class ChatCommands(Extension):
     )
     async def say(self, ctx: SlashContext, message: str):
         await ctx.defer()
-        resp = await chat.say(ctx.guild_id, message)
+        guild_id = ctx.guild_id.real if ctx.guild_id else 0
+
+        resp = await chat.say(guild_id, message)
         if len(resp) > PAGINATION:
             paginator = Paginator.create_from_string(ctx.bot, resp, page_size=2000)
             await paginator.send(ctx)
@@ -46,7 +48,8 @@ class ChatCommands(Extension):
         required=True,
     )
     async def set_behaviour(self, ctx: SlashContext, behaviour: str):
-        await chat.set_behaviour(ctx.guild_id, behaviour)
+        guild_id = ctx.guild_id.real if ctx.guild_id else 0
+        await chat.set_behaviour(guild_id, behaviour)
         await ctx.respond(
             f"Behaviour of AI ChatBot changed to {behaviour}. Message history cleared."
         )

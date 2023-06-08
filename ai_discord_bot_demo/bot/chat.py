@@ -1,12 +1,13 @@
 import os
 from collections import defaultdict
+from typing import Any, Dict, List
 
 from ai_discord_bot_demo.ai import dialog
 
 
 class Chat:
     def __init__(self) -> None:
-        self.messages = defaultdict(
+        self.messages: defaultdict[Any, List[Dict[str, str]]] = defaultdict(
             lambda: [{"role": "system", "content": os.environ["DEFAULT_AI_BEHAVIOUR"]}]
         )
 
