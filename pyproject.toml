@@ -9,8 +9,8 @@ packages = [{include = "ai_discord_bot_demo"}]
 [tool.poetry.dependencies]
 python = "^3.11"
 openai = "^0.27.6"
-discord = "^2.2.3"
 python-dotenv = "^1.0.0"
+discord-py-interactions = "^5.5.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.3.0"
